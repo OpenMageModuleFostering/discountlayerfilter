@@ -1,9 +1,9 @@
 {
     "name": "OpenMageModuleFostering/discountlayerfilter",
     "type": "magento-module",
-    "license": "Open-Software-License",
+    "license": "Open-Software-License-",
     "homepage": "",
-    "description": "This module is useful to display Discount Field into Layer Filter.",
+    "description": " This module is useful to display Discount Field into Layer Filter. ",
     "authors": [
     {
         "name": "Praful Rajput",

@@ -2,17 +2,10 @@
 <config>
     <modules>
         <Bdt_Discountlayerfilter>
-            <version>0.1.1</version>
+            <version>0.1.0</version>
         </Bdt_Discountlayerfilter>
     </modules>
     <global>
-        <models>
-            <catalog>
-                <rewrite>
-                    <layer_filter_decimal>Bdt_Discountlayerfilter_Model_Layer_Filter_Decimal</layer_filter_decimal>
-                </rewrite>
-            </catalog>
-        </models>
         <resources>
             <discountlayerfilter_setup>
                 <setup>
