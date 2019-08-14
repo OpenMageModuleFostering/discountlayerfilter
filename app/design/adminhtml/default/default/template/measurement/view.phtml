@@ -1,0 +1,103 @@
+<?php $collection = $this->getStitching(); 
+
+
+//echo $this->getRequest()->getParam('id');die;
+$collectionValues = Mage::getModel('measurement/measurementvalue')
+        ->getCollection()
+        ->addFieldToFilter('measurement_order_id', $this->getRequest()->getParam('id'));
+
+$media_url = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+
+?>
+<?php if(!$collection->getId()): ?>
+<?php echo $this->__('Error: '); ?>
+<?php else:?>
+
+<div class="columns">
+  <div id="page:left" class="side-col">
+    <h3><?php echo $this->__('Measurement Details'); ?></h3>
+    <ul id="transaction_detail" class="tabs">
+      <li> 
+	  	<a href="" class="tab-item-link active" title="<?php echo $this->__('Stitching Detail'); ?>"> <span> <?php echo $this->__('Stitching Detail'); ?> </span> </a> 
+	  </li>
+    </ul>
+  </div>
+  <div id="content" class="main-col">
+    <div class="main-col-inner">
+      <div id="messages"></div>
+      <div class="content-header" style="visibility:visible;">
+        <h3 class="icon-head head-customer"><?php echo $this->__('Stitching Detail:'); ?></h3>
+        <p class="form-buttons"><button style="" onclick="setLocation(' <?php echo $this->getBackUrl()?>')" class="scalable back" type="button" title="Back" id="id_back"><span><span><span>Back</span></span></span></button></p>
+        <p class="form-buttons"><button style="" onclick="printSelection(document.getElementById('productContact-table'));return false" class="scalable back" type="button" title="Print" id="id_print"><span><span><span>Print</span></span></span></button></p>
+      </div>
+      <div class="entry-edit">
+        <div id="productContact-table">
+          <div class="entry-edit">
+            <div class="entry-edit-head">
+              <h4 class="icon-head head-transaction-view"><?php echo $this->__('Stitching Details of Order #%d', $collection->getOrderId()); ?></h4>
+            </div>
+            <fieldset>
+            <table class="transaction-table" cellspacing="0" cellpadding="0" id="productcontactTable">
+              <col width="200;"/>
+              <col />
+              <?php if($collection->getCustomerName()): ?>
+              <tr>
+                <td ><label><strong><?php echo $this->__('Customer Name'); ?></strong></label></td>
+                <td ><?php echo $collection->getCustomerName(); ?></td>
+              </tr>
+              <?php endif;?>
+              <?php if($collection->getStoreId()): ?>
+              <tr>
+                <td ><label><strong><?php echo $this->__('Store'); ?></strong></label></td>
+                <td ><?php echo Mage::getModel('core/store')->load($collection->getStoreId())->getName(); ?></td>
+              </tr>
+              <?php endif;?>
+              <?php if($collection->getCustomerEmail()): ?>
+              <tr>
+                <td ><label><strong><?php echo $this->__('Customer Email'); ?></strong></label></td>
+                <td ><?php echo $collection->getCustomerEmail(); ?></td>
+              </tr>
+              <?php endif; ?>
+              <?php if($collection->getUnit()): ?>
+              <tr>
+                <td ><label><strong><?php echo $this->__('Measurement In'); ?></strong></label></td>
+                <td ><?php echo $collection->getUnit(); ?></td>
+              </tr>
+              <?php endif; ?>
+              
+              <?php foreach($collectionValues as $_item){?>
+              <tr>
+                <td ><label><strong><?php echo $this->helper('measurement')->getAttributeTitleById($_item->getAttributeId())?></strong></label></td>
+                <td ><?php echo ($this->helper('measurement')->getAttributeFrontendInput($_item->getAttributeId()) == 'select') ? '<img align="texttop" src="' .$media_url. 'measurement/options/' . $_item->getValue() . '" />' : $_item->getValue();?></td>
+              </tr>
+              <?php } ?>
+              <?php if($collection->getInstruction()): ?>
+              
+              <tr>
+                <td ><label><strong><?php echo $this->__('Instructiion'); ?></strong></label></td>
+                <td ><?php echo $collection->getInstruction(); ?></td>
+              </tr>
+              <?php endif; ?>
+            </table>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <script type="text/javascript">
+function printSelection(node){
+
+  var content=node.innerHTML
+  var pwin=window.open('','print_content','width=400,height=400');
+
+  pwin.document.open();
+  pwin.document.write('<html><body onload="window.print()">'+content+'</body></html>');
+  pwin.document.close();
+ 
+  setTimeout(function(){pwin.close();},1000);
+
+}
+</script>
+</div>
+<?php endif; ?>
